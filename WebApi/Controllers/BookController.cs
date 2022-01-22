@@ -47,19 +47,13 @@ namespace WebApi.Controllers
         {
             BookByIdViewModel result;
             GetBookByIdQuery query = new GetBookByIdQuery(_context, _mapper);
-            try
-            {
+            
                 query.BookId = id;
                 GetBookByIdQueryValidator validator = new GetBookByIdQueryValidator();
                 validator.ValidateAndThrow(query);
                 result = query.Handle();
 
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.Message);
-            }
+            
             return Ok(result);
         }
         //2 tane GET kabul etmiyor
@@ -75,8 +69,8 @@ namespace WebApi.Controllers
         public IActionResult AddBook([FromBody] CreateBookModel newBook)
         {
             CreateBookCommand command = new CreateBookCommand(_context,_mapper);
-            try
-            {
+            //try
+            //{
                 command.Model = newBook;
 
                 CreateBookCommandValidator validator = new CreateBookCommandValidator();
@@ -89,12 +83,12 @@ namespace WebApi.Controllers
                 //    }
                 //else
                 command.Handle();
-            }
-            catch (Exception ex)
-            {
+            //}
+            //catch (Exception ex)
+            //{
 
-                return BadRequest(ex.Message);
-            }
+            //    return BadRequest(ex.Message);
+            //}
             return Ok();
         }
 
@@ -102,18 +96,13 @@ namespace WebApi.Controllers
         public IActionResult UpdateBook(string id,[FromBody] UpdateBookModel updatedBook)
         {
             UpdateBookCommand command = new UpdateBookCommand(_context);
-            try
-            {
+            
                 command.BookId = Convert.ToInt32(id);
                 command.Model = updatedBook;
                 UpdateBookCommandValidator validator = new UpdateBookCommandValidator();
                 validator.ValidateAndThrow(command);
                 command.Handle();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            
             return Ok();
         }
 
@@ -121,18 +110,11 @@ namespace WebApi.Controllers
         public IActionResult DeleteBook(int id)
         {
             DeleteBookCommand command = new DeleteBookCommand(_context);
-            try
-            {
-                command.BookId = id;
+              command.BookId = id;
                 DeleteBookCommandValidator validator = new DeleteBookCommandValidator();
                 validator.ValidateAndThrow(command);
                 command.Handle();
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.Message);
-            }
+            
             return Ok();
         }
     }
